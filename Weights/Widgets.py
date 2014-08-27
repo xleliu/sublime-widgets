@@ -53,24 +53,28 @@ class EncodingBase(sublime_plugin.TextCommand):
                 selection = self.view.substr(region)
                 self.view.replace(edit, region, self.encode(type,selection))
 
-
+# md5 encode
 class Md5EncodingCommand(EncodingBase):
     def run(self,edit):
         self.encodeCommand("md5",edit)
 
+# time format transition
 class TimeFormatCommand(EncodingBase):
     def run(self,edit):
         self.encodeCommand("timeformat",edit)
 
+# URL encode/decode
 class UrlTransCommand(EncodingBase):
     def run(self,edit):
         self.encodeCommand("urltrans",edit)
 
+# insert unix time
 class InsertUinxTimeCommand(sublime_plugin.TextCommand):
     def run(self,edit):
         postion = self.view.sel()[0].begin()
         self.view.insert(edit, postion, str(int(time.time())))
 
+# insert locale date
 class InsertDateCommand(sublime_plugin.TextCommand):
     def run(self,edit):
         now = int(time.time())
@@ -78,6 +82,7 @@ class InsertDateCommand(sublime_plugin.TextCommand):
         postion = self.view.sel()[0].begin()
         self.view.insert(edit, postion, time.strftime("%Y-%m-%d %H:%M:%S", timeArray))
 
+# copy line of selected region to new flie
 class PointLineToNewFileCommand(sublime_plugin.TextCommand):
     def run(self,edit):
         allRegion = []
