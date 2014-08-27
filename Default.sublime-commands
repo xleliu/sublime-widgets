@@ -1,0 +1,26 @@
+[
+    {
+        "caption": "Weights: Md5 Encoding",
+        "command": "md5_encoding"
+    },
+    {
+        "caption": "Weights: Transition Date/Timestamp",
+        "command": "time_format"
+    },
+    {
+        "caption": "Weights: URL Encode/Decode",
+        "command": "url_trans"
+    },
+    {
+        "caption": "Weights: Insert Uinx Timestamp",
+        "command": "insert_uinx_time"
+    },
+    {
+        "caption": "Weights: Insert Local Date",
+        "command": "insert_date"
+    },
+    {
+        "caption": "Weights: Insert Select Regions To New File",
+        "command": "point_line_to_new_file"
+    }
+]
