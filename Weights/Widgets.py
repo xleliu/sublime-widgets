@@ -14,6 +14,8 @@ import sublime_plugin
 import hashlib
 import time
 import urllib.parse
+from html.parser import HTMLParser
+import cgi
 
 class EncodingBase(sublime_plugin.TextCommand):
 
@@ -37,6 +39,12 @@ class EncodingBase(sublime_plugin.TextCommand):
         else:
             return urllib.parse.quote(string,"-._")
 
+    def htmlEscape(self,string):
+        if string.find('&') >= 0:
+            if string.find(";") >= 0:
+                return HTMLParser().unescape(string)
+        return cgi.escape(string)
+
     def encode(self,type,string):
         if not string:
             return
@@ -46,6 +54,8 @@ class EncodingBase(sublime_plugin.TextCommand):
             return self.timeFormat(string)
         elif type == "urltrans":
             return self.urlTrans(string)
+        elif type == "htmlescape":
+            return self.htmlEscape(string)
 
     def encodeCommand(self,type,edit):
         for region in self.view.sel():
@@ -67,6 +77,11 @@ class TimeFormatCommand(EncodingBase):
 class UrlTransCommand(EncodingBase):
     def run(self,edit):
         self.encodeCommand("urltrans",edit)
+
+#HTML escape sequence
+class HtmlEscapeCommand(EncodingBase):
+    def run(self,edit):
+        self.encodeCommand("htmlescape",edit)
 
 # insert unix time
 class InsertUinxTimeCommand(sublime_plugin.TextCommand):

@@ -22,5 +22,9 @@
     {
         "caption": "Weights: Insert Select Regions To New File",
         "command": "point_line_to_new_file"
+    },
+    {
+        "caption": "Weights: HTML Character Escape/Unescape",
+        "command": "html_escape"
     }
 ]
