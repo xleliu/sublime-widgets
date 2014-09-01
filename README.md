@@ -10,6 +10,7 @@ Sublime-Weights(Sublime Text 3 plugin)
 5. 插入标准时间
 6. 将选中的词语的行写入新的文件中
 7. HMTL转义
+8. Unicode字符串解码/编码成Unicode字符串
 
 ##注意：
 1. URL编码的判别是通过检查`%`判别的

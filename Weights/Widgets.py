@@ -45,17 +45,25 @@ class EncodingBase(sublime_plugin.TextCommand):
                 return HTMLParser().unescape(string)
         return cgi.escape(string)
 
+    def unicodeTrans(self,string):
+        if string.find("\\u") >= 0:
+            return str(string.encode("utf-8").decode("unicode-escape"))
+        else:
+            return str(string.encode("unicode-escape"))[2:-1].replace("\\\\u","\\u")
+
     def encode(self,type,string):
         if not string:
             return
         if type == "md5":
-            return hashlib.md5(string.encode("utf8")).hexdigest()
+            return hashlib.md5(string.encode("utf-8")).hexdigest()
         elif type == "timeformat":
             return self.timeFormat(string)
         elif type == "urltrans":
             return self.urlTrans(string)
         elif type == "htmlescape":
             return self.htmlEscape(string)
+        elif type == "unicode":
+            return self.unicodeTrans(string)
 
     def encodeCommand(self,type,edit):
         for region in self.view.sel():
@@ -82,6 +90,11 @@ class UrlTransCommand(EncodingBase):
 class HtmlEscapeCommand(EncodingBase):
     def run(self,edit):
         self.encodeCommand("htmlescape",edit)
+
+# Unicode transition
+class UnicodeTransCommand(EncodingBase):
+    def run(self,edit):
+        self.encodeCommand("unicode",edit)
 
 # insert unix time
 class InsertUinxTimeCommand(sublime_plugin.TextCommand):

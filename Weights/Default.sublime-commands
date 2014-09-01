@@ -26,5 +26,9 @@
     {
         "caption": "Weights: HTML Character Escape/Unescape",
         "command": "html_escape"
+    },
+    {
+        "caption": "Weights: Unicode Encode/Decode",
+        "command": "unicode_trans"
     }
 ]
