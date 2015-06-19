@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # @Date    : 2014-08-25
 # @Author  : Scholer (scholer_l@live.com)
-# @Link    :
-# @Version : 0.1
+# @Link    : 0x1.im
+# @Version : 0.2
 
 # sublime plugin packages
 import sublime
@@ -66,8 +66,7 @@ class UrlTransCommand(EncodingBase):
 # HTML escape sequence
 class HtmlEscapeCommand(EncodingBase):
     def handler(self, string):
-        if string.find('&') >= 0:
-            if string.find(";") >= 0:
+        if string.find('&') >= 0 and string.find(";") >= 0:
                 return HTMLParser().unescape(string)
         return cgi.escape(string)
 
