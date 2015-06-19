@@ -30,5 +30,13 @@
     {
         "caption": "Weights: Unicode Encode/Decode",
         "command": "unicode_trans"
+    },
+    {
+        "caption": "Weights: Base64 Encode",
+        "command": "base64_encode"
+    },
+    {
+        "caption": "Weights: Base64 Decode",
+        "command": "base64_decode"
     }
 ]

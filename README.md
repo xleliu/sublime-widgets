@@ -11,6 +11,7 @@ Sublime-Weights(Sublime Text 3 plugin)
 6. 将选中的词语的行写入新的文件中
 7. HMTL转义
 8. Unicode字符串解码/编码成Unicode字符串
+9. Base64 encode/decode
 
 ##注意：
 1. URL编码的判别是通过检查`%`判别的

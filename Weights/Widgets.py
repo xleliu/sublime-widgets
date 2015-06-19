@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Date    : 2014-08-25
-# @Author  : Scholer (scholer.liu@haoqitech.com.cn)
+# @Author  : Scholer (scholer_l@live.com)
 # @Link    :
-# @Version : 0.1
+# @Version : 0.2
 
 # sublime plugin packages
 import sublime
@@ -16,6 +16,7 @@ import time
 import urllib.parse
 from html.parser import HTMLParser
 import cgi
+import base64
 
 class EncodingBase(sublime_plugin.TextCommand):
 
@@ -51,6 +52,14 @@ class EncodingBase(sublime_plugin.TextCommand):
         else:
             return str(string.encode("unicode-escape"))[2:-1].replace("\\\\u","\\u")
 
+    def base64Encode(self, string):
+        bString = string.encode(encoding="utf-8")
+        return base64.b64encode(bString).decode()
+
+    def base64Decode(self, string):
+        bString = string.encode(encoding="utf-8")
+        return base64.b64decode(bString).decode()
+
     def encode(self,type,string):
         if not string:
             return
@@ -64,6 +73,10 @@ class EncodingBase(sublime_plugin.TextCommand):
             return self.htmlEscape(string)
         elif type == "unicode":
             return self.unicodeTrans(string)
+        elif type == "base64Encode":
+            return self.base64Encode(string)
+        elif type == "base64Decode":
+            return self.base64Decode(string)
 
     def encodeCommand(self,type,edit):
         for region in self.view.sel():
@@ -95,6 +108,16 @@ class HtmlEscapeCommand(EncodingBase):
 class UnicodeTransCommand(EncodingBase):
     def run(self,edit):
         self.encodeCommand("unicode",edit)
+
+# base64 encode
+class base64EncodeCommand(EncodingBase):
+    def run(self, edit):
+        self.encodeCommand("base64Encode",edit)
+
+# base64 decode
+class base64DecodeCommand(EncodingBase):
+    def run(self, edit):
+        self.encodeCommand("base64Decode",edit)
 
 # insert unix time
 class InsertUinxTimeCommand(sublime_plugin.TextCommand):
