@@ -19,8 +19,27 @@ import cgi
 import base64
 
 
+# super class
 class EncodingBase(sublime_plugin.TextCommand):
-    def timeFormat(self, string):
+    def run(self, edit):
+        for region in self.view.sel():
+            if not region.empty():
+                selection = self.view.substr(region)
+                self.view.replace(edit, region, self.handler(selection))
+
+    def handler(self, string):
+        return string
+
+
+# md5 encode
+class Md5EncodingCommand(EncodingBase):
+    def handler(self, string):
+        return hashlib.md5(string.encode("utf-8")).hexdigest()
+
+
+# time format transition
+class TimeFormatCommand(EncodingBase):
+    def handler(self, string):
         if string.isdigit():
             timeArray = time.localtime(int(string))
             return time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
@@ -34,97 +53,46 @@ class EncodingBase(sublime_plugin.TextCommand):
                 return sublime.message_dialog('[Warning] time data ' + string + ' does not match format.')
             return str(int(time.mktime(timeArray)))
 
-    def urlTrans(self, string):
+
+# URL encode/decode
+class UrlTransCommand(EncodingBase):
+    def handler(self, string):
         if string.find('%') >= 0:
             return urllib.parse.unquote(string)
         else:
             return urllib.parse.quote(string, "-._")
 
-    def htmlEscape(self, string):
+
+# HTML escape sequence
+class HtmlEscapeCommand(EncodingBase):
+    def handler(self, string):
         if string.find('&') >= 0:
             if string.find(";") >= 0:
                 return HTMLParser().unescape(string)
         return cgi.escape(string)
 
-    def unicodeTrans(self, string):
+
+# Unicode transition
+class UnicodeTransCommand(EncodingBase):
+    def handler(self, string):
         if string.find("\\u") >= 0:
             return str(string.encode("utf-8").decode("unicode-escape"))
         else:
             return str(string.encode("unicode-escape"))[2:-1].replace("\\\\u", "\\u")
 
-    def base64Encode(self, string):
-        bString = string.encode(encoding="utf-8")
-        return base64.b64encode(bString).decode()
-
-    def base64Decode(self, string):
-        bString = string.encode(encoding="utf-8")
-        return base64.b64decode(bString).decode()
-
-    def encode(self, type, string):
-        if not string:
-            return
-        if type == "md5":
-            return hashlib.md5(string.encode("utf-8")).hexdigest()
-        elif type == "timeformat":
-            return self.timeFormat(string)
-        elif type == "urltrans":
-            return self.urlTrans(string)
-        elif type == "htmlescape":
-            return self.htmlEscape(string)
-        elif type == "unicode":
-            return self.unicodeTrans(string)
-        elif type == "base64Encode":
-            return self.base64Encode(string)
-        elif type == "base64Decode":
-            return self.base64Decode(string)
-
-    def encodeCommand(self, type, edit):
-        for region in self.view.sel():
-            if not region.empty():
-                selection = self.view.substr(region)
-                self.view.replace(edit, region, self.encode(type, selection))
-
-
-# md5 encode
-class Md5EncodingCommand(EncodingBase):
-    def run(self, edit):
-        self.encodeCommand("md5", edit)
-
-
-# time format transition
-class TimeFormatCommand(EncodingBase):
-    def run(self, edit):
-        self.encodeCommand("timeformat", edit)
-
-
-# URL encode/decode
-class UrlTransCommand(EncodingBase):
-    def run(self, edit):
-        self.encodeCommand("urltrans", edit)
-
-
-# HTML escape sequence
-class HtmlEscapeCommand(EncodingBase):
-    def run(self, edit):
-        self.encodeCommand("htmlescape", edit)
-
-
-# Unicode transition
-class UnicodeTransCommand(EncodingBase):
-    def run(self, edit):
-        self.encodeCommand("unicode", edit)
-
 
 # base64 encode
 class base64EncodeCommand(EncodingBase):
-    def run(self, edit):
-        self.encodeCommand("base64Encode", edit)
+    def handler(self, string):
+        bString = string.encode(encoding="utf-8")
+        return base64.b64encode(bString).decode()
 
 
 # base64 decode
 class base64DecodeCommand(EncodingBase):
-    def run(self, edit):
-        self.encodeCommand("base64Decode", edit)
+    def handler(self, string):
+        bString = string.encode(encoding="utf-8")
+        return base64.b64decode(bString).decode()
 
 
 # insert unix time
