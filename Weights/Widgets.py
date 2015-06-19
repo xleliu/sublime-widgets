@@ -3,7 +3,7 @@
 # @Date    : 2014-08-25
 # @Author  : Scholer (scholer_l@live.com)
 # @Link    :
-# @Version : 0.2
+# @Version : 0.1
 
 # sublime plugin packages
 import sublime
@@ -18,39 +18,39 @@ from html.parser import HTMLParser
 import cgi
 import base64
 
-class EncodingBase(sublime_plugin.TextCommand):
 
-    def timeFormat(self,string):
+class EncodingBase(sublime_plugin.TextCommand):
+    def timeFormat(self, string):
         if string.isdigit():
             timeArray = time.localtime(int(string))
             return time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-        else :
+        else:
             try:
                 if len(string) < 11:
                     timeArray = time.strptime(string, "%Y-%m-%d")
-                else :
+                else:
                     timeArray = time.strptime(string, "%Y-%m-%d %H:%M:%S")
             except (ValueError):
                 return sublime.message_dialog('[Warning] time data ' + string + ' does not match format.')
             return str(int(time.mktime(timeArray)))
 
-    def urlTrans(self,string):
+    def urlTrans(self, string):
         if string.find('%') >= 0:
             return urllib.parse.unquote(string)
         else:
-            return urllib.parse.quote(string,"-._")
+            return urllib.parse.quote(string, "-._")
 
-    def htmlEscape(self,string):
+    def htmlEscape(self, string):
         if string.find('&') >= 0:
             if string.find(";") >= 0:
                 return HTMLParser().unescape(string)
         return cgi.escape(string)
 
-    def unicodeTrans(self,string):
+    def unicodeTrans(self, string):
         if string.find("\\u") >= 0:
             return str(string.encode("utf-8").decode("unicode-escape"))
         else:
-            return str(string.encode("unicode-escape"))[2:-1].replace("\\\\u","\\u")
+            return str(string.encode("unicode-escape"))[2:-1].replace("\\\\u", "\\u")
 
     def base64Encode(self, string):
         bString = string.encode(encoding="utf-8")
@@ -60,7 +60,7 @@ class EncodingBase(sublime_plugin.TextCommand):
         bString = string.encode(encoding="utf-8")
         return base64.b64decode(bString).decode()
 
-    def encode(self,type,string):
+    def encode(self, type, string):
         if not string:
             return
         if type == "md5":
@@ -78,64 +78,74 @@ class EncodingBase(sublime_plugin.TextCommand):
         elif type == "base64Decode":
             return self.base64Decode(string)
 
-    def encodeCommand(self,type,edit):
+    def encodeCommand(self, type, edit):
         for region in self.view.sel():
             if not region.empty():
                 selection = self.view.substr(region)
-                self.view.replace(edit, region, self.encode(type,selection))
+                self.view.replace(edit, region, self.encode(type, selection))
+
 
 # md5 encode
 class Md5EncodingCommand(EncodingBase):
-    def run(self,edit):
-        self.encodeCommand("md5",edit)
+    def run(self, edit):
+        self.encodeCommand("md5", edit)
+
 
 # time format transition
 class TimeFormatCommand(EncodingBase):
-    def run(self,edit):
-        self.encodeCommand("timeformat",edit)
+    def run(self, edit):
+        self.encodeCommand("timeformat", edit)
+
 
 # URL encode/decode
 class UrlTransCommand(EncodingBase):
-    def run(self,edit):
-        self.encodeCommand("urltrans",edit)
+    def run(self, edit):
+        self.encodeCommand("urltrans", edit)
 
-#HTML escape sequence
+
+# HTML escape sequence
 class HtmlEscapeCommand(EncodingBase):
-    def run(self,edit):
-        self.encodeCommand("htmlescape",edit)
+    def run(self, edit):
+        self.encodeCommand("htmlescape", edit)
+
 
 # Unicode transition
 class UnicodeTransCommand(EncodingBase):
-    def run(self,edit):
-        self.encodeCommand("unicode",edit)
+    def run(self, edit):
+        self.encodeCommand("unicode", edit)
+
 
 # base64 encode
 class base64EncodeCommand(EncodingBase):
     def run(self, edit):
-        self.encodeCommand("base64Encode",edit)
+        self.encodeCommand("base64Encode", edit)
+
 
 # base64 decode
 class base64DecodeCommand(EncodingBase):
     def run(self, edit):
-        self.encodeCommand("base64Decode",edit)
+        self.encodeCommand("base64Decode", edit)
+
 
 # insert unix time
 class InsertUinxTimeCommand(sublime_plugin.TextCommand):
-    def run(self,edit):
+    def run(self, edit):
         postion = self.view.sel()[0].begin()
         self.view.insert(edit, postion, str(int(time.time())))
 
+
 # insert locale date
 class InsertDateCommand(sublime_plugin.TextCommand):
-    def run(self,edit):
+    def run(self, edit):
         now = int(time.time())
         timeArray = time.localtime(now)
         postion = self.view.sel()[0].begin()
         self.view.insert(edit, postion, time.strftime("%Y-%m-%d %H:%M:%S", timeArray))
 
+
 # copy line of selected region to new flie
 class PointLineToNewFileCommand(sublime_plugin.TextCommand):
-    def run(self,edit):
+    def run(self, edit):
         allRegion = []
         for region in self.view.sel():
             allRegion.append(self.view.substr(self.view.full_line(region.begin())))
@@ -143,9 +153,10 @@ class PointLineToNewFileCommand(sublime_plugin.TextCommand):
         tab = win.new_file()
         row = 0
         for string in allRegion:
-            postion = tab.text_point(row,0)
-            tab.insert(edit,postion,string)
-            row+=1
+            postion = tab.text_point(row, 0)
+            tab.insert(edit, postion, string)
+            row += 1
+
 
 # this will be called when the API is ready to use
 def plugin_loaded():
