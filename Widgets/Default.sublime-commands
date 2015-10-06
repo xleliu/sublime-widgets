@@ -1,0 +1,42 @@
+[
+    {
+        "caption": "Widgets: Md5 Encoding",
+        "command": "md5_encoding"
+    },
+    {
+        "caption": "Widgets: Transition Date/Timestamp",
+        "command": "time_format"
+    },
+    {
+        "caption": "Widgets: URL Encode/Decode",
+        "command": "url_trans"
+    },
+    {
+        "caption": "Widgets: Insert Uinx Timestamp",
+        "command": "insert_uinx_time"
+    },
+    {
+        "caption": "Widgets: Insert Local Date",
+        "command": "insert_date"
+    },
+    {
+        "caption": "Widgets: Insert Select Regions To New File",
+        "command": "point_line_to_new_file"
+    },
+    {
+        "caption": "Widgets: HTML Character Escape/Unescape",
+        "command": "html_escape"
+    },
+    {
+        "caption": "Widgets: Unicode Encode/Decode",
+        "command": "unicode_trans"
+    },
+    {
+        "caption": "Widgets: Base64 Encode",
+        "command": "base64_encode"
+    },
+    {
+        "caption": "Widgets: Base64 Decode",
+        "command": "base64_decode"
+    }
+]
