@@ -1,7 +1,6 @@
-Sublime-Weights(Sublime Text 3 plugin)
----
+## Sublime-Widgets(Sublime Text 3 plugin)
 
-##一些在开发的过程中需要用到的小工具：
+## 一些在开发的过程中需要用到的小工具：
 
 1. 字符串的md5编码
 2. 标准时间与Unix时间戳的转换
@@ -13,6 +12,7 @@ Sublime-Weights(Sublime Text 3 plugin)
 8. Unicode字符串解码/编码成Unicode字符串
 9. Base64 encode/decode
 
-##注意：
+## 注意：
+
 1. URL编码的判别是通过检查`%`判别的
 2. HTML转义是通过检查`&`和`;`判别的
