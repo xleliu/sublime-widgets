@@ -16,8 +16,12 @@
         "command": "insert_uinx_time"
     },
     {
-        "caption": "Widgets: Insert Local Date",
+        "caption": "Widgets: Insert Local Date (Without Time)",
         "command": "insert_date"
+    },
+    {
+        "caption": "Widgets: Insert Local Date and Time",
+        "command": "insert_datetime"
     },
     {
         "caption": "Widgets: Insert Select Regions To New File",

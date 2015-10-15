@@ -101,8 +101,17 @@ class InsertUinxTimeCommand(sublime_plugin.TextCommand):
         self.view.insert(edit, postion, str(int(time.time())))
 
 
-# insert locale date
+# insert locale datetime
 class InsertDateCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        now = int(time.time())
+        timeArray = time.localtime(now)
+        postion = self.view.sel()[0].begin()
+        self.view.insert(edit, postion, time.strftime("%Y-%m-%d", timeArray))
+
+
+# insert locale datetime
+class InsertDatetimeCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         now = int(time.time())
         timeArray = time.localtime(now)
