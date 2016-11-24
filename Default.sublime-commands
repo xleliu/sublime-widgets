@@ -42,5 +42,9 @@
     {
         "caption": "Widgets: Base64 Decode",
         "command": "base64_decode"
+    },
+    {
+        "caption": "Widgets: cURL Format",
+        "command": "curl_format"
     }
 ]
