@@ -11,7 +11,7 @@
 7. HMTL转义
 8. Unicode字符串解码/编码成Unicode字符串
 9. Base64 encode/decode
-10. cURL 命令通过 `-H` 换行
+10. cURL 命令通过 `-H` 和 `--` 换行
 
 ## 注意：
 

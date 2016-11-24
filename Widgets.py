@@ -138,7 +138,8 @@ class PointLineToNewFileCommand(sublime_plugin.TextCommand):
 class CurlFormatCommand(EncodingBase):
     """docstring for CurlFormatCommand"""
     def handler(self, string):
-        return '\\\n    -H'.join(string.split('-H'))
+        string = '\\\n    -H'.join(string.split('-H'))
+        return '\\\n    --'.join(string.split('--'))
 
 
 # this will be called when the API is ready to use
